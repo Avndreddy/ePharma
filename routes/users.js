@@ -4,6 +4,7 @@ const User = require("../models/User/user");
 const { connectToDb, closeDbConnection } = require("../config/DBConnrect");
 const { registerUser, login, updateUserDetails } = require("../controllers/register");
 const { verifyToken } = require("../utils/JWT");
+const {checkForbiddenAccess} = require("../utils/forbiddenAccess");
 
 router.get("/loginUser", async (req, res) => {
   try {
@@ -40,9 +41,7 @@ router.post("/createUser", async (req, res) => {
 router.put("/updateUser/:id", verifyToken,async (req, res) => {
   const id  = req.params?.id;
   const updates = req.body;
-  if(id.toString() !== req.user.id.toString()){
-    res.status(403).send('Forbiden access')
-  }
+  checkForbiddenAccess(id, req);
   try {
     await connectToDb();
     const updateDetails = await updateUserDetails(id, updates);

@@ -10,6 +10,7 @@ const {connectToDb, closeDbConnection} = require('./config/DBConnrect')
 const User = require('./routes/users');
 const Product = require("./routes/product");
 const Cart = require('./routes/cart');
+const Shipping = require('./routes/shippingDetails');
 
 // MiddleWares
 app.use(express.json());
@@ -19,6 +20,7 @@ app.use(cors());
 app.use('/api',User)
 app.use('/api',Product)
 app.use('/api',Cart)
+app.use('/api',Shipping)
 
 // Server Start
 const PORT = process.env.PORT || 3001;

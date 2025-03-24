@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const cartSchema = new mongoose.Schema({
-  Customer_ID: {
+  userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
     required: true,
@@ -29,9 +29,9 @@ const cartSchema = new mongoose.Schema({
       },
     },
   ],
-  Total: {
-    type: Number,
-  },
+  // Total: {
+  //   type: Number,
+  // },
 });
 
 
@@ -42,8 +42,8 @@ cartSchema.pre('save', function (next) {
     product.Total_Price = product.Quantity * product.Price;
   });
 
-  // Calculate the total sum of all products in the cart
-  this.Total = this.Products.reduce((sum, product) => sum + product.Total_Price, 0);
+  // // Calculate the total sum of all products in the cart
+  // this.Total = this.Products.reduce((sum, product) => sum + product.Total_Price, 0);
 
   next();
 });

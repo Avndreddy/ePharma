@@ -16,13 +16,12 @@ async function generateToken(data) {
 
     async function verifyToken(req, res, next) {
     const token = req.header("Authorization")?.split(" ")[1];
-    console.log(token)
     if (!token) {
         res.status(401).json({ message: "Access Denied: No token provided" });
     }
     try {
-        const decoded = jwt.verify(token, secretKey);
-        req.user = decoded;
+        const decodedToken = jwt.verify(token, secretKey);
+        req.user = decodedToken;
         next();
     } catch (error) {
         res.status(401).json({ message: "Access Denied: Invalid token" });

@@ -41,7 +41,6 @@ async function login(req) {
 async function updateUserDetails(id, updateValues) {
   try {
     const user = await User.findById(id);
-    console.log(user, updateValues.oldPassword, updateValues.newPassword);
     if (!user) {
       return { error: "User not found", status: 404 };
     }
@@ -61,7 +60,6 @@ async function updateUserDetails(id, updateValues) {
       user.Outlet_Name = updateValues.Outlet_Name || user.Outlet_Name;
       user.Outlet_GSTNO = updateValues.Outlet_GSTNO || user.Outlet_GSTNO;
       const newUser = await User.updateOne({ _id: id }, { $set: user });
-      console.log(newUser);
       return newUser;
     } else return { error: "Unauthorsed access", status: 404 };
   } catch (error) {
