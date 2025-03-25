@@ -5,7 +5,6 @@ const User = require("../models/User/user");
 const { verifyToken } = require("../utils/JWT");
 const { connectToDb } = require("../config/DBConnrect");
 const {
-  
   getShippingDetails,
   createShippingDetails,
   updateShippingDetails,
@@ -14,12 +13,11 @@ const {
 } = require("../controllers/shippingDetails");
 const { checkForbiddenAccess } = require("../utils/forbiddenAccess");
 
-
 router.get("/getAShippingDetails/:id", verifyToken, async (req, res) => {
   const { id } = req.params;
-  checkForbiddenAccess(id, req);
+
   try {
-    await connectToDb();
+    checkForbiddenAccess(id, req);
     const shippingDetails = await getShippingDetails(id);
     res.json(shippingDetails);
   } catch (error) {
@@ -29,9 +27,9 @@ router.get("/getAShippingDetails/:id", verifyToken, async (req, res) => {
 
 router.post("/addAShippingDetails/:id", verifyToken, async (req, res) => {
   const { id } = req.params;
-  checkForbiddenAccess(id, req);
+
   try {
-    await connectToDb();
+    checkForbiddenAccess(id, req);
     const shipping = await createShippingDetails(req);
     res.status(201).json(shipping);
   } catch (error) {
@@ -39,26 +37,30 @@ router.post("/addAShippingDetails/:id", verifyToken, async (req, res) => {
   }
 });
 
-router.put("/updateAShippingDetails/:userId/:subId", verifyToken, async (req, res) => {
-  const { userId,subId } = req.params;
-  checkForbiddenAccess(userId, req);
-  try {
-    await connectToDb();
-    const shipping = await updateShippingDetails(userId, subId, req);
-    res.status(201).json(shipping);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
+router.put(
+  "/updateAShippingDetails/:userId/:subId",
+  verifyToken,
+  async (req, res) => {
+    const { userId, subId } = req.params;
+
+    try {
+      checkForbiddenAccess(id, req);
+      const shipping = await updateShippingDetails(userId, subId, req);
+      res.status(201).json(shipping);
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+    }
   }
-});
+);
 
 router.delete(
   "/deleteShippingRecord/:userId",
   verifyToken,
   async (req, res) => {
     const { userId } = req.params;
-    checkForbiddenAccess(userId, req);
+
     try {
-      await connectToDb();
+      checkForbiddenAccess(id, req);
       const deleted = await deleteShippingRecord(userId);
       res.status(200).send(deleted);
     } catch (error) {
@@ -72,9 +74,9 @@ router.delete(
   verifyToken,
   async (req, res) => {
     const { userId, subId } = req.params;
-    checkForbiddenAccess(userId, req);
+
     try {
-      await connectToDb();
+      checkForbiddenAccess(id, req);
       const deleted = await deleteSubShippingRecord(userId, subId);
       res.status(200).send(deleted);
     } catch (error) {

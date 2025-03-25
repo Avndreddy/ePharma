@@ -8,21 +8,19 @@ const {checkForbiddenAccess} = require("../utils/forbiddenAccess");
 
 router.get("/loginUser", async (req, res) => {
   try {
-    await connectToDb();
+     
     // Create a new user document
     const token = await login(req)
     res.status(200).send(token);
   } catch (error) {
     console.log(error);
     res.status(500).send(error);
-  } finally {
-    await closeDbConnection();
-  }
+  }   
 });
 
 router.post("/createUser", async (req, res) => {
   try {
-    await connectToDb();
+     
     const user = await registerUser(req);
 
     if (user) {
@@ -33,17 +31,15 @@ router.post("/createUser", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).send("Registration Failed");
-  }finally {
-    await closeDbConnection();
-  }
+  }  
 });
 
 router.put("/updateUser/:id", verifyToken,async (req, res) => {
   const id  = req.params?.id;
   const updates = req.body;
-  checkForbiddenAccess(id, req);
+
   try {
-    await connectToDb();
+    checkForbiddenAccess(id, req);
     const updateDetails = await updateUserDetails(id, updates);
     if (updateDetails.status == 404) {
       return res.status(updateDetails.status).json({ message: updateDetails.error });
@@ -52,9 +48,7 @@ router.put("/updateUser/:id", verifyToken,async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(500).send(error);
-  }finally {
-    await closeDbConnection();
-  }
+  }  
 });
 
 module.exports = router;

@@ -16,11 +16,21 @@ const Shipping = require('./routes/shippingDetails');
 app.use(express.json());
 app.use(cors());
 
+// Connect to DB
+connectToDb()
+
 // use routes
 app.use('/api',User)
 app.use('/api',Product)
 app.use('/api',Cart)
 app.use('/api',Shipping)
+
+// Gracefully close MongoDB on process exit
+process.on("SIGINT", async () => {
+  console.log("Closing MongoDB connection...");
+  await mongoose.connection.close();
+  process.exit(0);
+});
 
 // Server Start
 const PORT = process.env.PORT || 3001;

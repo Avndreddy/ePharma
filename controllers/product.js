@@ -1,4 +1,5 @@
 const Product = require("../models/product");
+const mongoose = require("mongoose");
 
 async function getAllProducts() {
   try {
@@ -34,6 +35,18 @@ async function getProductsByID(id) {
     return products;
   } catch (error) {
     res.status(500).json({ message: "Error fetching products" });
+  }
+}
+
+async function getManyProductsByID(ids) {
+  try {
+    console.log(ids,typeof(ids))
+    const objectIds = ids.map(id => new mongoose.Types.ObjectId(id));
+    const products = await Product.find({ _id: { $in: objectIds } });
+    console.log(products);
+    return products;
+  } catch (error) {
+    return({ message: "Error fetching products" });
   }
 }
 
@@ -93,6 +106,7 @@ module.exports = {
   getAllProducts,
   getAllProductNameListByName,
   getProductsByID,
+  getManyProductsByID,
   getProductByCategory,
   getProductByName,
   createAProduct,
