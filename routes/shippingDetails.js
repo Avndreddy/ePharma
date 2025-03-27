@@ -12,25 +12,27 @@ const {
   deleteSubShippingRecord,
 } = require("../controllers/shippingDetails");
 const { checkForbiddenAccess } = require("../utils/forbiddenAccess");
+const Fixed_Role = "Customer"
 
-router.get("/getAShippingDetails/:id", verifyToken, async (req, res) => {
-  const { id } = req.params;
+
+router.get("/getAShippingDetails/:userId", verifyToken, async (req, res) => {
+  const { userId } = req.params;
 
   try {
-    checkForbiddenAccess(id, req);
-    const shippingDetails = await getShippingDetails(id);
+    checkForbiddenAccess(userId, req, Fixed_Role);
+    const shippingDetails = await getShippingDetails(userId);
     res.json(shippingDetails);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 });
 
-router.post("/addAShippingDetails/:id", verifyToken, async (req, res) => {
-  const { id } = req.params;
+router.post("/addAShippingDetails/:userId", verifyToken, async (req, res) => {
+  const { userId } = req.params;
 
   try {
-    checkForbiddenAccess(id, req);
-    const shipping = await createShippingDetails(req);
+    checkForbiddenAccess(userId, req, Fixed_Role);
+    const shipping = await createShippingDetails(userId,req);
     res.status(201).json(shipping);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -44,7 +46,7 @@ router.put(
     const { userId, subId } = req.params;
 
     try {
-      checkForbiddenAccess(id, req);
+      checkForbiddenAccess(userId, req, Fixed_Role);
       const shipping = await updateShippingDetails(userId, subId, req);
       res.status(201).json(shipping);
     } catch (error) {
@@ -60,7 +62,7 @@ router.delete(
     const { userId } = req.params;
 
     try {
-      checkForbiddenAccess(id, req);
+      checkForbiddenAccess(userId, req, Fixed_Role);
       const deleted = await deleteShippingRecord(userId);
       res.status(200).send(deleted);
     } catch (error) {
@@ -76,7 +78,7 @@ router.delete(
     const { userId, subId } = req.params;
 
     try {
-      checkForbiddenAccess(id, req);
+      checkForbiddenAccess(userId, req, Fixed_Role);
       const deleted = await deleteSubShippingRecord(userId, subId);
       res.status(200).send(deleted);
     } catch (error) {

@@ -6,7 +6,6 @@ const secretKey = process.env.JWT_SECRET_KEY || "Avnd1"; // Secret key
 async function generateToken(data) {
   try {
     const token = await jwt.sign(data, secretKey, { expiresIn: "1h" });
-    console.log(token);
     return token;
   } catch (error) {
     console.log(error);

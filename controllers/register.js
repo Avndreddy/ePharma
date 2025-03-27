@@ -20,16 +20,14 @@ async function login(req) {
     if (!user) {
       return { error: "User not found", status: 404 };
     }
-    console.log(user, req.body);
     const isValidPassword = await comparePassword(
       req.body?.Password,
       user.Password
     );
-    console.log(isValidPassword);
     if (!isValidPassword) {
       return { error: "Invalid password", status: 401 };
     } else {
-      const token = await generateToken({ id: user._id, User: user.Name });
+      const token = await generateToken({ id: user._id, User: user.Name, Role:user.Role, Outlet_Name: user.Outlet_Name, Email: user.Email });
       return { token, status: 200 };
     }
   } catch (error) {

@@ -9,24 +9,24 @@ async function getShippingDetails(id) {
     return error;
   }
 }
-async function createShippingDetails(req) {
+async function createShippingDetails(userId,req) {
   try {
-    const customerId = req.params.id.toString();
     const shippingDetails = req.body;
-    let shipping = await Shipping.findOne({ userId: customerId });
+    let shipping = await Shipping.findOne({ userId: userId });
     if (shipping) {
       shipping.shippingDetails.push(shippingDetails);
       const updatedShipping = await shipping.save();
       return updatedShipping;
     }
     shipping = new Shipping({
-      userId: customerId,
+      userId: userId,
       shippingDetails: [shippingDetails],
     });
     const savedShipping = await shipping.save();
     return savedShipping;
   } catch (error) {
-    return res.status(500).json({ message: "Error creating shipping details" });
+    console.log(error)
+    return error
   }
 }
 

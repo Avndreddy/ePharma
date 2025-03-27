@@ -23,16 +23,19 @@ const accountHolderSchema = new mongoose.Schema({
     },
     Outlet_Name:{
       type:String,
-      required:true
     },
     Outlet_GSTNO:{
       type:String,
-      required:true
     },
     Password:{
       type:String,
       required:true
-    }
+    },
+    Role: {
+      type: String,
+      enum: ['Admin', 'Customer', 'Super Admin', 'Distributor'],
+      required: true
+      }
   });
   
   const AccountHolder = mongoose.model('User', accountHolderSchema);

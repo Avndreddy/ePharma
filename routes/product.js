@@ -14,7 +14,7 @@ const {
 } = require("../controllers/product");
 const { verifyToken } = require("../utils/JWT");
 const { checkForbiddenAccess } = require("../utils/forbiddenAccess");
-
+const Fixed_Role = ['Super User', 'Admin', 'distributor']
 router.get("/getAllProducts", async (req, res) => {
   try {
      

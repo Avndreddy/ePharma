@@ -11,6 +11,7 @@ const User = require('./routes/users');
 const Product = require("./routes/product");
 const Cart = require('./routes/cart');
 const Shipping = require('./routes/shippingDetails');
+const Order = require('./routes/orders');
 
 // MiddleWares
 app.use(express.json());
@@ -24,6 +25,7 @@ app.use('/api',User)
 app.use('/api',Product)
 app.use('/api',Cart)
 app.use('/api',Shipping)
+app.use('/api',Order)
 
 // Gracefully close MongoDB on process exit
 process.on("SIGINT", async () => {
